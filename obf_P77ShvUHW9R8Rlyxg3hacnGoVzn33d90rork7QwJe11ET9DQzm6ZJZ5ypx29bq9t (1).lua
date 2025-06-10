@@ -1,7 +1,7 @@
--- Carregando Rayfield (não obfuscar)
+
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
--- Criando a janela principal
+
 local Window = Rayfield:CreateWindow({
     Name = 'Felipe Hub',
     LoadingTitle = 'Felipe Auto Farm',
@@ -17,10 +17,10 @@ local Window = Rayfield:CreateWindow({
     KeySystem = false,
 })
 
--- Criando a aba principal
+
 local MainTab = Window:CreateTab('Main', 4483362458)
 
--- Criando função global de notificação segura
+
 local function notify(title, message)
     if Rayfield and Rayfield.Notify then
         Rayfield.Notify(Rayfield, title, message)
