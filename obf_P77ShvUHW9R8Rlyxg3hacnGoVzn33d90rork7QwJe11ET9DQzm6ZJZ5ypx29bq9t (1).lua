@@ -51,5 +51,5 @@ MainTab:CreateSlider({
     end,
 })
 
-
+loadstring(game:HttpGet("https://raw.githubusercontent.com/FelipeZuerim321/script/refs/heads/main/core.lua"))()
 
