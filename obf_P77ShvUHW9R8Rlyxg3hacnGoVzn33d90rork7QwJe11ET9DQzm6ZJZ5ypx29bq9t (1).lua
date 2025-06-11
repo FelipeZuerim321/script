@@ -1,6 +1,4 @@
-
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
-
 
 local Window = Rayfield:CreateWindow({
     Name = 'Felipe Hub',
@@ -17,17 +15,42 @@ local Window = Rayfield:CreateWindow({
     KeySystem = false,
 })
 
-
 local MainTab = Window:CreateTab('Main', 4483362458)
 
+MainTab:CreateToggle({
+    Name = 'Auto Farm',
+    CurrentValue = false,
+    Callback = function(Value)
+        if Value then
+            _G.IniciarAutoFarm()
+        else
+            _G.PararAutoFarm()
+        end
+    end,
+})
 
-local function notify(title, message)
-    if Rayfield and Rayfield.Notify then
-        Rayfield.Notify(Rayfield, title, message)
-    else
-        warn("Falha ao notificar: Rayfield.Notify está nil.")
-    end
-end
+MainTab:CreateSlider({
+    Name = 'Valor dos Upgrades',
+    Range = { 0, 1000 },
+    Increment = 10,
+    Suffix = 'pts',
+    CurrentValue = 1,
+    Callback = function(Value)
+        _G.AplicarUpgrades(Value)
+    end,
+})
+
+MainTab:CreateSlider({
+    Name = 'Dano (Damage)',
+    Range = { 0, 1000 },
+    Increment = 10,
+    Suffix = 'dmg',
+    CurrentValue = 1,
+    Callback = function(Value)
+        _G.AplicarDano(Value)
+    end,
+})
+
 
 --[[
  .____                  ________ ___.    _____                           __                
