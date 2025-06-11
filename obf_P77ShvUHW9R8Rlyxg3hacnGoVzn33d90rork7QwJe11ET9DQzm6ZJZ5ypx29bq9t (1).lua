@@ -81,7 +81,7 @@ c:CreateSlider({
    if not playerData then error("PlayerData não encontrado") end
    local upgrades=playerData:FindFirstChild('Upgrades')
    if not upgrades then error("Upgrades não encontrado") end
-   local rebirths=playerData:FindFirstChild('RebirthUpgrades') or playerData
+   local rebirths=playerData:FindFirstChild('') or playerData
    for _,v in pairs(upgrades:GetChildren())do
     if v:IsA('IntValue')or v:IsA('NumberValue')then v.Value=f end
    end
