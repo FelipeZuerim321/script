@@ -6,6 +6,7 @@ local e
 local f=1
 local g=1
 local h=false
+
 local function i()
  local j=game:GetService('Players')
  local k=game:GetService('VirtualInputManager')
@@ -56,16 +57,22 @@ local function i()
   end
  end)
 end
-c:CreateToggle({Name='Auto Farm',CurrentValue=false,Callback=function(y)
- d=y
- if d then
-  h=false
-  i()
- else
-  if e then task.cancel(e)end
-  h=false
- end
-end})
+
+c:CreateToggle({
+ Name='Auto Farm',
+ CurrentValue=false,
+ Callback=function(y)
+  d=y
+  if d then
+   h=false
+   i()
+  else
+   if e then task.cancel(e) end
+   h=false
+  end
+ end,
+})
+
 c:CreateSlider({
  Name='Valor dos Upgrades',
  Range={0,1000},
@@ -74,19 +81,25 @@ c:CreateSlider({
  CurrentValue=f,
  Callback=function(z)
   f=z
-  local success, err=pcall(function()
-   local player=game:GetService('Players').LocalPlayer
-   if not player then error("Player não encontrado") end
-   local playerData=player:FindFirstChild('PlayerData')
-   if not playerData then error("PlayerData não encontrado") end
-   local upgrades=playerData:FindFirstChild('Upgrades')
-   if not upgrades then error("Upgrades não encontrado") end
-   local rebirths=playerData:FindFirstChild('') or playerData
-   for _,v in pairs(upgrades:GetChildren())do
-    if v:IsA('IntValue')or v:IsA('NumberValue')then v.Value=f end
+  local success, err = pcall(function()
+   local player = game:GetService('Players').LocalPlayer
+   if not player then error('Player não encontrado') end
+   local playerData = player:FindFirstChild('PlayerData')
+   if not playerData then error('PlayerData não encontrado') end
+   local upgrades = playerData:FindFirstChild('Upgrades')
+   if not upgrades then error('Upgrades não encontrado') end
+   local rebirths = playerData:FindFirstChild('RebirthUpgrades') or playerData
+
+   for _,v in pairs(upgrades:GetChildren()) do
+    if v:IsA('IntValue') or v:IsA('NumberValue') then
+     v.Value = f
+    end
    end
-   for _,v in pairs(rebirths:GetChildren())do
-    if v:IsA('IntValue')or v:IsA('NumberValue')then v.Value=f end
+
+   for _,v in pairs(rebirths:GetChildren()) do
+    if v:IsA('IntValue') or v:IsA('NumberValue') then
+     v.Value = f
+    end
    end
   end)
   if success then
@@ -96,6 +109,7 @@ c:CreateSlider({
   end
  end,
 })
+
 c:CreateSlider({
  Name='Dano (Damage)',
  Range={0,1000},
@@ -104,18 +118,23 @@ c:CreateSlider({
  CurrentValue=g,
  Callback=function(G)
   g=G
-  local success, err=pcall(function()
-   local player=game:GetService('Players').LocalPlayer
-   if not player then error("Player não encontrado") end
-   local playerData=player:FindFirstChild('PlayerData')
-   if not playerData then error("PlayerData não encontrado") end
-   local upgrades=playerData:FindFirstChild('Upgrades')
-   local rebirths=playerData:FindFirstChild('RebirthUpgrades')
-   if not upgrades then error("Upgrades não encontrado") end
-   local damage1=upgrades:FindFirstChild('Damage')
-   local damage2=rebirths and rebirths:FindFirstChild('Damage')
-   if damage1 and (damage1:IsA('IntValue') or damage1:IsA('NumberValue')) then damage1.Value=g end
-   if damage2 and (damage2:IsA('IntValue') or damage2:IsA('NumberValue')) then damage2.Value=g end
+  local success, err = pcall(function()
+   local player = game:GetService('Players').LocalPlayer
+   if not player then error('Player não encontrado') end
+   local playerData = player:FindFirstChild('PlayerData')
+   if not playerData then error('PlayerData não encontrado') end
+   local upgrades = playerData:FindFirstChild('Upgrades')
+   local rebirths = playerData:FindFirstChild('RebirthUpgrades')
+   if not upgrades then error('Upgrades não encontrado') end
+   local damage1 = upgrades:FindFirstChild('Damage')
+   local damage2 = rebirths and rebirths:FindFirstChild('Damage')
+
+   if damage1 and (damage1:IsA('IntValue') or damage1:IsA('NumberValue')) then
+    damage1.Value = g
+   end
+   if damage2 and (damage2:IsA('IntValue') or damage2:IsA('NumberValue')) then
+    damage2.Value = g
+   end
   end)
   if success then
    a:Notify('Dano Atualizado','Damage definido como '..g)
