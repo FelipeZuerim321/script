@@ -30,4 +30,4 @@ _G.notify = function(title, message)
 end
 
 -- Executando a lógica obfuscada (coloque o link do seu arquivo obfuscado abaixo)
-loadstring(game:HttpGet("https://SEU_LINK_OBFUSCADO.lua"))()
+loadstring(game:HttpGet("https://github.com/FelipeZuerim321/script/blob/main/core.lua"))()
