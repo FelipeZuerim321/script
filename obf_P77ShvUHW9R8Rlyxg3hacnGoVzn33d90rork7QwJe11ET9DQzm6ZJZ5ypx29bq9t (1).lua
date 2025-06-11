@@ -66,31 +66,61 @@ c:CreateToggle({Name='Auto Farm',CurrentValue=false,Callback=function(y)
   h=false
  end
 end})
-c:CreateSlider({Name='Valor dos Upgrades',Range={0,1000},Increment=10,Suffix='pts',CurrentValue=f,Callback=function(z)
- f=z
- local A, B=pcall(function()
-  local C=game:GetService('Players').LocalPlayer
-  local D=C:WaitForChild('PlayerData'):WaitForChild('Upgrades')
-  local E=C:WaitForChild('PlayerData')
-  for _,F in pairs(D:GetChildren())do
-   if F:IsA('IntValue')or F:IsA('NumberValue')then F.Value=f end
+c:CreateSlider({
+ Name='Valor dos Upgrades',
+ Range={0,1000},
+ Increment=10,
+ Suffix='pts',
+ CurrentValue=f,
+ Callback=function(z)
+  f=z
+  local success, err=pcall(function()
+   local player=game:GetService('Players').LocalPlayer
+   if not player then error("Player não encontrado") end
+   local playerData=player:FindFirstChild('PlayerData')
+   if not playerData then error("PlayerData não encontrado") end
+   local upgrades=playerData:FindFirstChild('Upgrades')
+   if not upgrades then error("Upgrades não encontrado") end
+   local rebirths=playerData:FindFirstChild('RebirthUpgrades') or playerData
+   for _,v in pairs(upgrades:GetChildren())do
+    if v:IsA('IntValue')or v:IsA('NumberValue')then v.Value=f end
+   end
+   for _,v in pairs(rebirths:GetChildren())do
+    if v:IsA('IntValue')or v:IsA('NumberValue')then v.Value=f end
+   end
+  end)
+  if success then
+   a:Notify('Atualizado','Valores definidos para '..f)
+  else
+   a:Notify('Erro','Falha ao atualizar: '..tostring(err))
   end
-  for _,F in pairs(E:GetChildren())do
-   if F:IsA('IntValue')or F:IsA('NumberValue')then F.Value=f end
+ end,
+})
+c:CreateSlider({
+ Name='Dano (Damage)',
+ Range={0,1000},
+ Increment=10,
+ Suffix='dmg',
+ CurrentValue=g,
+ Callback=function(G)
+  g=G
+  local success, err=pcall(function()
+   local player=game:GetService('Players').LocalPlayer
+   if not player then error("Player não encontrado") end
+   local playerData=player:FindFirstChild('PlayerData')
+   if not playerData then error("PlayerData não encontrado") end
+   local upgrades=playerData:FindFirstChild('Upgrades')
+   local rebirths=playerData:FindFirstChild('RebirthUpgrades')
+   if not upgrades then error("Upgrades não encontrado") end
+   local damage1=upgrades:FindFirstChild('Damage')
+   local damage2=rebirths and rebirths:FindFirstChild('Damage')
+   if damage1 and (damage1:IsA('IntValue') or damage1:IsA('NumberValue')) then damage1.Value=g end
+   if damage2 and (damage2:IsA('IntValue') or damage2:IsA('NumberValue')) then damage2.Value=g end
+  end)
+  if success then
+   a:Notify('Dano Atualizado','Damage definido como '..g)
+  else
+   a:Notify('Erro','Falha ao atualizar o dano: '..tostring(err))
   end
- end)
- if A then a:Notify('Atualizado','Valores definidos para '..f)else a:Notify('Erro','Falha ao atualizar: '..tostring(B))end
-end})
-c:CreateSlider({Name='Dano (Damage)',Range={0,1000},Increment=10,Suffix='dmg',CurrentValue=g,Callback=function(G)
- g=G
- local H,I=pcall(function()
-  local J=game:GetService('Players').LocalPlayer
-  local K=J:WaitForChild('PlayerData'):WaitForChild('Upgrades')
-  local L=J:WaitForChild('PlayerData'):WaitForChild('RebirthUpgrades')
-  local M=K:FindFirstChild('Damage')
-  local N=L:FindFirstChild('Damage')
-  if M and (M:IsA('IntValue')or M:IsA('NumberValue'))then M.Value=g end
-  if N and (N:IsA('IntValue')or N:IsA('NumberValue'))then N.Value=g end
- end)
- if H then a:Notify('Dano Atualizado','Damage definido como '..g)else a:Notify('Erro','Falha ao atualizar o dano: '..tostring(I))end
-end})
+ end,
+})
